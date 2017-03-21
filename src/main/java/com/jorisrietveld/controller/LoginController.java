@@ -34,7 +34,7 @@ public class LoginController extends HttpServlet
         response.setStatus(200);
 
         PrintWriter responseOutput = response.getWriter();
-        
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
