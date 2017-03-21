@@ -1,0 +1,22 @@
+{
+  "name": "EindOpdrachtWebsite",
+  "authors": [
+    "Joris Rietveld <jorisrietveld@gmail.com>"
+  ],
+  "description": "An school project",
+  "main": "",
+  "license": "GPLv3",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/resources/third-party",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "2.2.4",
+    "bootstrap": "3"
+  }
+}
