@@ -1,5 +1,7 @@
 package com.jorisrietveld.model.entity;
 
+import java.sql.Timestamp;
+
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created on: 20-03-2017 15:26
@@ -19,5 +21,8 @@ package com.jorisrietveld.model.entity;
  */
 public interface Entity
 {
-
+    public int getId();
+    public boolean isEmpty();
+    public Timestamp getDateAdded();
+    public Timestamp getDateModified();
 }

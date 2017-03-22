@@ -1,5 +1,8 @@
 package com.jorisrietveld.model.entity;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created on: 18-03-2017 19:00
@@ -19,32 +22,113 @@ package com.jorisrietveld.model.entity;
  */
 public class User implements Entity
 {
+    private boolean empty = true;
+    private int id;
     private String username;
     private String password;
+    private Timestamp dateAdded;
+    private Timestamp dateModified;
 
-    public User(String username, String password)
+    /**
+     * Simple user constructor for creating an empty user object.
+     */
+    public User()
     {
-        this.username=username;
-        this.password=password;
     }
 
+    /**
+     * User constructor for creating an user object.
+     * @param id
+     * @param username
+     * @param password
+     * @param dateAdded
+     * @param dateModified
+     */
+    public User(int id, String username, String password, Timestamp dateAdded, Timestamp dateModified )
+    {
+        this.id = id;
+        this.username=username;
+        this.password=password;
+        this.dateAdded= dateAdded;
+        this.dateModified=dateModified;
+    }
+
+    /**
+     * Gets the value of the property id
+     */
+    public int getId()
+    {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     *
+     * @param id int
+     */
+    public void setId(int id)
+    {
+        this.id=id;
+    }
+
+    /**
+     * Gets the value of the property username
+     */
     public String getUsername()
     {
         return username;
     }
 
+    /**
+     * Sets the value of the username property.
+     *
+     * @param username java.lang.String
+     */
     public void setUsername(String username)
     {
         this.username=username;
     }
 
+    /**
+     * Gets the value of the property password
+     */
     public String getPassword()
     {
         return password;
     }
 
+    /**
+     * Sets the value of the password property.
+     *
+     * @param password java.lang.String
+     */
     public void setPassword(String password)
     {
         this.password=password;
+    }
+
+    /**
+     * Gets the value of the property dateAdded
+     */
+    public Timestamp getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    /**
+     * Gets the value of the property dateModified
+     */
+    public Timestamp getDateModified()
+    {
+        return dateModified;
+    }
+
+    /**
+     * Check if it is an real user or an empty object.
+     * @return empty boolean
+     */
+    public boolean isEmpty()
+    {
+        return empty;
     }
 }

@@ -1,6 +1,9 @@
 package com.jorisrietveld.model.entity;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -21,96 +24,193 @@ import java.util.ArrayList;
  */
 public class SpeedBoat implements Entity
 {
-    private int speedBoatId;
+    private boolean empty = true;
+    private int id;
     private int weight;
     private int horsePower;
     private int boatNumber;
     private int length;
-    private int rent;
-    private ArrayList<DamageReport> damageReports;
+    private BigDecimal rent;
+    private Timestamp dateAdded;
+    private Timestamp dateModified;
 
-    public SpeedBoat(int speedBoatId, int weight, int horsePower, int boatNumber, int length, int rent, ArrayList<DamageReport> damageReports)
+    /**
+     * Speedboat simple constructor for initiating an empty speedboat object.
+     */
+    public SpeedBoat()
     {
-        this.speedBoatId=speedBoatId;
+    }
+
+    /**
+     * Speeboat constructor for initiating the an new speedboat object.
+     * @param id
+     * @param weight
+     * @param horsePower
+     * @param boatNumber
+     * @param length
+     * @param rent
+     * @param dateAdded
+     * @param dateModified
+     */
+    public SpeedBoat(int id, int weight, int horsePower, int boatNumber, int length, BigDecimal rent, Timestamp dateAdded, Timestamp dateModified )
+    {
+        this.id=id;
         this.weight=weight;
         this.horsePower=horsePower;
         this.boatNumber=boatNumber;
         this.length=length;
         this.rent=rent;
-        this.damageReports=damageReports;
+        this.dateAdded = dateAdded;
+        this.dateModified = dateModified;
+        this.empty = false;
     }
 
-    public SpeedBoat()
+    /**
+     * Gets the value of the property speedBoatId
+     *
+     * @return speedBoatId int
+     */
+    public int getId()
     {
+        return id;
     }
 
-    public int getSpeedBoatId()
+    /**
+     * Sets the value of the speedBoatId property.
+     *
+     * @param id int
+     */
+    public void setId(int id)
     {
-        return speedBoatId;
+        this.id=id;
     }
 
-    public void setSpeedBoatId(int speedBoatId)
-    {
-        this.speedBoatId=speedBoatId;
-    }
-
+    /**
+     * Gets the value of the property weight
+     *
+     * @return weight int
+     */
     public int getWeight()
     {
         return weight;
     }
 
+    /**
+     * Sets the value of the weight property.
+     *
+     * @param weight int
+     */
     public void setWeight(int weight)
     {
         this.weight=weight;
     }
 
+    /**
+     * Gets the value of the property horsePower
+     *
+     * @return horsePower int
+     */
     public int getHorsePower()
     {
         return horsePower;
     }
 
+    /**
+     * Sets the value of the horsePower property.
+     *
+     * @param horsePower int
+     */
     public void setHorsePower(int horsePower)
     {
         this.horsePower=horsePower;
     }
 
+    /**
+     * Gets the value of the property boatNumber
+     *
+     * @return boatNumber int
+     */
     public int getBoatNumber()
     {
         return boatNumber;
     }
 
+    /**
+     * Sets the value of the boatNumber property.
+     *
+     * @param boatNumber int
+     */
     public void setBoatNumber(int boatNumber)
     {
         this.boatNumber=boatNumber;
     }
 
+    /**
+     * Gets the value of the property length
+     *
+     * @return length int
+     */
     public int getLength()
     {
         return length;
     }
 
+    /**
+     * Sets the value of the length property.
+     *
+     * @param length int
+     */
     public void setLength(int length)
     {
         this.length=length;
     }
 
-    public int getRent()
+    /**
+     * Gets the value of the property rent
+     *
+     * @return rent java.math.BigDecimal
+     */
+    public BigDecimal getRent()
     {
         return rent;
     }
 
-    public void setRent(int rent)
+    /**
+     * Sets the value of the rent property.
+     *
+     * @param rent java.math.BigDecimal
+     */
+    public void setRent(BigDecimal rent)
     {
         this.rent=rent;
     }
 
-    public ArrayList<DamageReport> getDamageReports()
+    /**
+     * Gets the value of the property dateAdded
+     *
+     * @return dateAdded java.util.Date
+     */
+    public Timestamp getDateAdded()
     {
-        return damageReports;
+        return dateAdded;
     }
 
-    public void setDamageReports(ArrayList<DamageReport> damageReports)
+    /**
+     * Gets the value of the property dateModified
+     *
+     * @return dateModified java.util.Date
+     */
+    public Timestamp getDateModified()
     {
-        this.damageReports=damageReports;
+        return dateModified;
+    }
+
+    /**
+     * Check if it is an real speedboat or an empty object.
+     * @return empty boolean
+     */
+    public boolean isEmpty()
+    {
+        return empty;
     }
 }

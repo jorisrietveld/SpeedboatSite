@@ -27,9 +27,12 @@ public class DamageReportRepository extends Repository
     private static final String TABLE_NAME = "DamageReport";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
         add("id");
+        add("rentalId");
         add("title");
         add("description");
         add("cost");
+        add("dateAdded");
+        add("dateModified");
     }};
 
     public DamageReportRepository()

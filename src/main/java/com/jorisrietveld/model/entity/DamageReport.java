@@ -1,5 +1,10 @@
 package com.jorisrietveld.model.entity;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created on: 18-03-2017 11:18
@@ -17,58 +22,160 @@ package com.jorisrietveld.model.entity;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class DamageReport
+public class DamageReport implements Entity
 {
-    private int damageId;
-    private String damageTitle;
-    private String damageDescription;
-    private String damageCost;
+    private boolean empty=true;
+    private int id;
+    private Rental rental;
+    private String title;
+    private String description;
+    private BigDecimal cost;
+    private Timestamp dateAdded;
+    private Timestamp dateModified;
 
-    public DamageReport(int damageId, String damageTitle, String damageDescription, String damageCost)
+    /**
+     * Simple damage report constructor for initiating an empty damage report object.
+     */
+    public DamageReport()
     {
-        this.damageId=damageId;
-        this.damageTitle=damageTitle;
-        this.damageDescription=damageDescription;
-        this.damageCost=damageCost;
     }
 
-    public int getDamageid()
+    /**
+     * Damage report constructor for creating an damage report object.
+     *
+     * @param id
+     * @param rental
+     * @param title
+     * @param description
+     * @param cost
+     * @param dateAdded
+     * @param dateModified
+     */
+    public DamageReport(int id, Rental rental, String title, String description, BigDecimal cost, Timestamp dateAdded, Timestamp dateModified)
     {
-        return damageId;
+        this.id=id;
+        this.rental=rental;
+        this.title=title;
+        this.description=description;
+        this.cost=cost;
+        this.dateAdded=dateAdded;
+        this.dateModified=dateModified;
+        this.empty=false;
     }
 
-    public void setDamageid(int damageId)
+    /**
+     * Gets the value of the property id
+     */
+    public int getId()
     {
-        this.damageId=damageId;
+        return id;
     }
 
-    public String getDamageTitle()
+    /**
+     * Sets the value of the id property.
+     *
+     * @param id int
+     */
+    public void setId(int id)
     {
-        return damageTitle;
+        this.id=id;
     }
 
-    public void setDamageTitle(String damageTitle)
+    /**
+     * Gets the value of the property rental
+     */
+    public Rental getRental()
     {
-        this.damageTitle=damageTitle;
+        return rental;
     }
 
-    public String getDamageDescription()
+    /**
+     * Sets the value of the rental property.
+     *
+     * @param rental com.jorisrietveld.model.entity.Rental
+     */
+    public void setRental(Rental rental)
     {
-        return damageDescription;
+        this.rental=rental;
     }
 
-    public void setDamageDescription(String damageDescription)
+    /**
+     * Gets the value of the property title
+     */
+    public String getTitle()
     {
-        this.damageDescription=damageDescription;
+        return title;
     }
 
-    public String getDamageCost()
+    /**
+     * Sets the value of the title property.
+     *
+     * @param title java.lang.String
+     */
+    public void setTitle(String title)
     {
-        return damageCost;
+        this.title=title;
     }
 
-    public void setDamageCost(String damageCost)
+    /**
+     * Gets the value of the property description
+     */
+    public String getDescription()
     {
-        this.damageCost=damageCost;
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property.
+     *
+     * @param description java.lang.String
+     */
+    public void setDescription(String description)
+    {
+        this.description=description;
+    }
+
+    /**
+     * Gets the value of the property cost
+     */
+    public BigDecimal getCost()
+    {
+        return cost;
+    }
+
+    /**
+     * Sets the value of the cost property.
+     *
+     * @param cost java.math.BigDecimal
+     */
+    public void BigDecimal(BigDecimal cost)
+    {
+        this.cost=cost;
+    }
+
+    /**
+     * Gets the value of the property dateAdded
+     */
+    public Timestamp getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    /**
+     * Gets the value of the property dateModified
+     */
+    public Timestamp getDateModified()
+    {
+        return dateModified;
+    }
+
+    /**
+     * Check if it is an real damage report or an empty object.
+     *
+     * @return empty boolean
+     */
+    public boolean isEmpty()
+    {
+        return empty;
     }
 }

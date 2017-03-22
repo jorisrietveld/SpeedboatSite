@@ -19,13 +19,19 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class RentedSpeedboatRepository extends Repository
+public class RentalRepository extends Repository
 {
-    private static final String TABLE_NAME = "RentedSpeedboat";
+    private static final String TABLE_NAME = "Rental";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
         add("id");
-        add("title");
-        add("description");
-        add("cost");
+        add("speedboatId");
+        add("customerId");
+        add("fuelLevelStart");
+        add("fuelLevelEnd");
+        add("currentlyRented");
+        add("rentedStartDate");
+        add("rentedEndDate");
+        add("dateAdded");
+        add("dateModified");
     }};
 }

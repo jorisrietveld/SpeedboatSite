@@ -32,10 +32,8 @@ public class EntityManager
     private static final String DATABASE_USER = "root";
     private static final String DATABASE_PASSWORD = "toor";
     private static final String DATABASE_PORT = "3306";
-    private static final String DATABASE_CHARSET = "UTF-8";
     private static final String DATABASE_SCHEMA = "SpeedboatRentalSite";
 
-    private String databaseConnectString = "";
     private Connection connection = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
@@ -43,17 +41,20 @@ public class EntityManager
 
     public EntityManager()
     {
-
     }
 
-    public void readDataBase() throws Exception
+    public void openDatabaseConnection() throws Exception
     {
+        /**
+         * Try to load the jdbc mysql driver.
+         */
         try{
-            Class.forName( this.DATABASE_DRIVER );
+            Class.forName( DATABASE_DRIVER );
 
             this.connection =DriverManager.getConnection( String.format(
-                    "jdbc:mysql://%s/%s?user=%s&password=%s",
+                    "jdbc:mysql://%s:%s/%s?user=%s&password=%s",
                     DATABASE_HOST,
+                    DATABASE_PORT,
                     DATABASE_SCHEMA,
                     DATABASE_USER,
                     DATABASE_PASSWORD
@@ -61,7 +62,32 @@ public class EntityManager
         }
         catch( Exception e )
         {
-            System.out.print(e.getMessage() );
+            throw e;
+        }
+        finally
+        {
+            close();
+        }
+    }
+
+    private void close()
+    {
+        try{
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        catch( Exception e )
+        {
+            // Do nothing.
         }
     }
 
