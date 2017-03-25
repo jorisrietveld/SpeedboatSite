@@ -1,9 +1,8 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -22,10 +21,22 @@ import java.util.Date;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class DamageReport implements Entity
+public class DamageReport extends Entity
 {
-    private boolean empty=true;
-    private int id;
+    /**
+     * Initiate the default table settings for the DamageReport Repo.
+     */
+    private static final String TABLE_NAME = "DamageReport";
+    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+        add("id");
+        add("rentalId");
+        add("title");
+        add("description");
+        add("cost");
+        add("dateAdded");
+        add("dateModified");
+    }};
+
     private Rental rental;
     private String title;
     private String description;
@@ -38,6 +49,7 @@ public class DamageReport implements Entity
      */
     public DamageReport()
     {
+        super(TABLE_NAME,TABLE_COLUMNS);
     }
 
     /**
@@ -53,6 +65,7 @@ public class DamageReport implements Entity
      */
     public DamageReport(int id, Rental rental, String title, String description, BigDecimal cost, Timestamp dateAdded, Timestamp dateModified)
     {
+        super(TABLE_NAME,TABLE_COLUMNS);
         this.id=id;
         this.rental=rental;
         this.title=title;
@@ -92,7 +105,7 @@ public class DamageReport implements Entity
     /**
      * Sets the value of the rental property.
      *
-     * @param rental com.jorisrietveld.model.entity.Rental
+     * @param rental com.jorisrietveld.model.Rental
      */
     public void setRental(Rental rental)
     {

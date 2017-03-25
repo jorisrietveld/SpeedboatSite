@@ -1,8 +1,10 @@
 package com.jorisrietveld.model.repository;
 
+import java.sql.Connection;
 import java.util.ArrayList;
-import com.jorisrietveld.model.entity.Entity;
-import com.jorisrietveld.model.entity.SpeedBoat;
+
+import com.jorisrietveld.model.Entity;
+import com.jorisrietveld.model.SpeedBoat;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -21,20 +23,27 @@ import com.jorisrietveld.model.entity.SpeedBoat;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-abstract class Repository
+public abstract class Repository
 {
     protected String repositoryName;
     protected String tableName;
     protected ArrayList<String> columnNames;
+    protected Connection connection;
 
     public Repository()
     {
-        this.repositoryName = "";
+        this.repositoryName="";
     }
 
-    public Repository( String repositoryName )
+    public Repository(String repositoryName)
     {
         this.repositoryName=repositoryName;
+    }
+
+    public Repository(String repositoryName, ArrayList<String> columnNames )
+    {
+        this.repositoryName=repositoryName;
+        this.columnNames = columnNames;
     }
 
     public String getName()
@@ -42,9 +51,9 @@ abstract class Repository
         return this.repositoryName;
     }
 
-    public void setName( String repositoryName )
+    public void setName(String repositoryName)
     {
-        this.repositoryName = repositoryName;
+        this.repositoryName=repositoryName;
     }
 
     public String getTableName()
@@ -67,15 +76,15 @@ abstract class Repository
         this.columnNames=columnNames;
     }
 
-    public ArrayList<Entity> getAll()
+    public Entity getById(int entityId)
     {
-        ArrayList<Entity> entities = new ArrayList<Entity>();
 
-        return entities;
+        return new SpeedBoat();
     }
 
-    public Entity getById( int entityId )
+    public Repository setConnection(Connection connection)
     {
-        return new SpeedBoat();
+        this.connection=connection;
+        return this;
     }
 }

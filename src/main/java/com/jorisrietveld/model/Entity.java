@@ -1,6 +1,7 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -19,10 +20,41 @@ import java.sql.Timestamp;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public interface Entity
+public abstract class Entity
 {
-    public int getId();
-    public boolean isEmpty();
-    public Timestamp getDateAdded();
-    public Timestamp getDateModified();
+    protected boolean empty = true;
+    protected int id;
+    protected Timestamp dateAdded;
+    protected Timestamp dateModified;
+    protected String tableName;
+    protected ArrayList<String> columnNames;
+
+    public Entity()
+    {
+    }
+
+    public Entity( String tableName, ArrayList<String> columnNames )
+    {
+        this.tableName = tableName;
+        this.columnNames = columnNames;
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public boolean isEmpty()
+    {
+        return this.empty;
+    }
+    public Timestamp getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    public Timestamp getDateModified()
+    {
+        return dateModified;
+    }
 }

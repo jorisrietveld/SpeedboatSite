@@ -1,5 +1,8 @@
 package com.jorisrietveld.model.repository;
 
+import com.jorisrietveld.model.Customer;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,7 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class CustomerRepository
+public class CustomerRepository extends Repository
 {
     private static final String TABLE_NAME = "Customer";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
@@ -31,4 +34,14 @@ public class CustomerRepository
         add("dateAdded");
         add("dateModified");
     }};
+
+    public CustomerRepository()
+    {
+        super( TABLE_NAME, TABLE_COLUMNS );
+    }
+
+    public Customer createCustomerFromResultSet(ResultSet resultSet)
+    {
+        return new Customer();
+    }
 }

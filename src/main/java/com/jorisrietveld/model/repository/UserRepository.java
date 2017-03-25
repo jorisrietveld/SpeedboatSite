@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class UserRepository
+public class UserRepository extends Repository
 {
     private static final String TABLE_NAME = "User";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{

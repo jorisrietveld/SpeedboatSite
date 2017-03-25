@@ -1,7 +1,7 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -22,6 +22,15 @@ import java.sql.Timestamp;
  */
 public class User implements Entity
 {
+    private static final String TABLE_NAME = "User";
+    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+        add("id");
+        add("username");
+        add("password");
+        add("dateAdded");
+        add("dateModified");
+    }};
+
     private boolean empty = true;
     private int id;
     private String username;

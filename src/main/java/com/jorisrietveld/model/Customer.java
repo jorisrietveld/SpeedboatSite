@@ -1,7 +1,7 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -20,10 +20,19 @@ import java.util.Date;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class Customer implements Entity
+public class Customer extends Entity
 {
-    private boolean empty = true;
-    private int id;
+    private static final String TABLE_NAME = "Customer";
+    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+        add("id");
+        add("firstName");
+        add("lastName");
+        add("email");
+        add("telephoneNumber");
+        add("dateAdded");
+        add("dateModified");
+    }};
+
     private String firstName;
     private String lastName;
     private String email;
@@ -36,6 +45,7 @@ public class Customer implements Entity
      */
     public Customer()
     {
+        super( TABLE_NAME, TABLE_COLUMNS );
     }
 
     /**
@@ -51,6 +61,7 @@ public class Customer implements Entity
      */
     public Customer(int id, String firstName, String lastName, String email, String telephoneNumber, Timestamp dateAdded, Timestamp dateModified)
     {
+        super( TABLE_NAME, TABLE_COLUMNS );
         this.id=id;
         this.firstName=firstName;
         this.lastName=lastName;

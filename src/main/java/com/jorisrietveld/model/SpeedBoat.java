@@ -1,9 +1,8 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -24,6 +23,17 @@ import java.util.Date;
  */
 public class SpeedBoat implements Entity
 {
+    private static final String TABLE_NAME = "Speedboat";
+    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+        add("id");
+        add("weight");
+        add("horsePower");
+        add("boatNumber");
+        add("rent");
+        add("dateAdded");
+        add("dateModified");
+    }};
+
     private boolean empty = true;
     private int id;
     private int weight;

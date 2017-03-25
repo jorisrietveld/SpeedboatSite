@@ -1,8 +1,7 @@
-package com.jorisrietveld.model.entity;
+package com.jorisrietveld.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -21,10 +20,22 @@ import java.util.Date;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class Rental implements Entity
+public class Rental extends Entity
 {
-    private boolean empty = true;
-    private int id;
+    private static final String TABLE_NAME = "Rental";
+    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+        add("id");
+        add("speedboatId");
+        add("customerId");
+        add("fuelLevelStart");
+        add("fuelLevelEnd");
+        add("currentlyRented");
+        add("rentedStartDate");
+        add("rentedEndDate");
+        add("dateAdded");
+        add("dateModified");
+    }};
+
     private SpeedBoat speedBoat;
     private Customer customer;
     private int fuelLevelStart;
@@ -41,6 +52,7 @@ public class Rental implements Entity
      */
     public Rental()
     {
+        super(TABLE_NAME,TABLE_COLUMNS);
     }
 
     /**
@@ -53,14 +65,14 @@ public class Rental implements Entity
      * @param fuelLevelEnd
      * @param currentlyRented
      * @param rentedStartDate
-     * @param rentedEndDate
+     * @param rentedEndDate ffffffffffffffffff
      * @param damageReports
      * @param dateAdded
      * @param dateModified
      */
     public Rental(int id, SpeedBoat speedBoat, Customer customer, int fuelLevelStart, int fuelLevelEnd, boolean currentlyRented, Timestamp rentedStartDate, Timestamp rentedEndDate, ArrayList<DamageReport> damageReports, Timestamp dateAdded, Timestamp dateModified)
     {
-        this.id=id;
+        super( TABLE_NAME,TABLE_COLUMNS );
         this.speedBoat=speedBoat;
         this.customer=customer;
         this.fuelLevelStart=fuelLevelStart;
@@ -71,6 +83,7 @@ public class Rental implements Entity
         this.damageReports=damageReports;
         this.dateAdded=dateAdded;
         this.dateModified=dateModified;
+        this.empty = false;
     }
 
     /**
@@ -102,7 +115,7 @@ public class Rental implements Entity
     /**
      * Sets the value of the speedBoat property.
      *
-     * @param speedBoat com.jorisrietveld.model.entity.SpeedBoat
+     * @param speedBoat com.jorisrietveld.model.SpeedBoat
      */
     public void setSpeedBoat(SpeedBoat speedBoat)
     {
@@ -120,7 +133,7 @@ public class Rental implements Entity
     /**
      * Sets the value of the customer property.
      *
-     * @param customer com.jorisrietveld.model.entity.Customer
+     * @param customer com.jorisrietveld.model.Customer
      */
     public void setCustomer(Customer customer)
     {
@@ -210,7 +223,7 @@ public class Rental implements Entity
     /**
      * Sets the value of the damageReports property.
      *
-     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.entity.DamageReport>
+     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.DamageReport>
      */
     public void setDamageReports(ArrayList<DamageReport> damageReports)
     {
