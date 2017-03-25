@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,19 +20,8 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class User implements Entity
+public class User extends Entity
 {
-    private static final String TABLE_NAME = "User";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("username");
-        add("password");
-        add("dateAdded");
-        add("dateModified");
-    }};
-
-    private boolean empty = true;
-    private int id;
     private String username;
     private String password;
     private Timestamp dateAdded;

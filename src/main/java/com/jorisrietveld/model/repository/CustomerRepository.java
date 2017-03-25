@@ -1,7 +1,9 @@
 package com.jorisrietveld.model.repository;
 
-import com.jorisrietveld.model.Customer;
+import com.jorisrietveld.model.Entity.Customer;
+import com.jorisrietveld.model.Entity.Entity;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -40,8 +42,36 @@ public class CustomerRepository extends Repository
         super( TABLE_NAME, TABLE_COLUMNS );
     }
 
-    public Customer createCustomerFromResultSet(ResultSet resultSet)
+    public Customer createCustomerFromResultSet(ResultSet resultSet) throws Exception
     {
-        return new Customer();
+        return new Customer(
+                resultSet.getInt("id" ),
+                resultSet.getString( "firstName"),
+                resultSet.getString( "lastName"),
+                resultSet.getString("email"),
+                resultSet.getString( "telephoneNumber"),
+                resultSet.getTimestamp( "dateAdded" ),
+                resultSet.getTimestamp("dateModified")
+        );
+    }
+
+    public Customer getById( int id )
+    {
+        try
+        {
+            String sqlQuery=String.format("SELECT %s FROM `%s`.`%s` WHERE id = ? ", String.join(",", TABLE_COLUMNS), DATABASE_NAME, TABLE_NAME);
+
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt( 1, id );
+
+            ResultSet dbCustomer = statement.executeQuery();
+
+            return createCustomerFromResultSet( dbCustomer );
+        }
+        catch( Exception e )
+        {
+
+        }
+        return null;
     }
 }

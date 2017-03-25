@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -23,20 +23,6 @@ import java.util.ArrayList;
  */
 public class DamageReport extends Entity
 {
-    /**
-     * Initiate the default table settings for the DamageReport Repo.
-     */
-    private static final String TABLE_NAME = "DamageReport";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("rentalId");
-        add("title");
-        add("description");
-        add("cost");
-        add("dateAdded");
-        add("dateModified");
-    }};
-
     private Rental rental;
     private String title;
     private String description;
@@ -49,7 +35,6 @@ public class DamageReport extends Entity
      */
     public DamageReport()
     {
-        super(TABLE_NAME,TABLE_COLUMNS);
     }
 
     /**
@@ -65,7 +50,6 @@ public class DamageReport extends Entity
      */
     public DamageReport(int id, Rental rental, String title, String description, BigDecimal cost, Timestamp dateAdded, Timestamp dateModified)
     {
-        super(TABLE_NAME,TABLE_COLUMNS);
         this.id=id;
         this.rental=rental;
         this.title=title;
@@ -105,7 +89,7 @@ public class DamageReport extends Entity
     /**
      * Sets the value of the rental property.
      *
-     * @param rental com.jorisrietveld.model.Rental
+     * @param rental com.jorisrietveld.model.Entity.Rental
      */
     public void setRental(Rental rental)
     {

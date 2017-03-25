@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,17 +26,9 @@ public abstract class Entity
     protected int id;
     protected Timestamp dateAdded;
     protected Timestamp dateModified;
-    protected String tableName;
-    protected ArrayList<String> columnNames;
 
     public Entity()
     {
-    }
-
-    public Entity( String tableName, ArrayList<String> columnNames )
-    {
-        this.tableName = tableName;
-        this.columnNames = columnNames;
     }
 
     public int getId()

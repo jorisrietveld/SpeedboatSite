@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,17 +22,6 @@ import java.util.ArrayList;
  */
 public class Customer extends Entity
 {
-    private static final String TABLE_NAME = "Customer";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("firstName");
-        add("lastName");
-        add("email");
-        add("telephoneNumber");
-        add("dateAdded");
-        add("dateModified");
-    }};
-
     private String firstName;
     private String lastName;
     private String email;
@@ -45,7 +34,6 @@ public class Customer extends Entity
      */
     public Customer()
     {
-        super( TABLE_NAME, TABLE_COLUMNS );
     }
 
     /**
@@ -61,7 +49,6 @@ public class Customer extends Entity
      */
     public Customer(int id, String firstName, String lastName, String email, String telephoneNumber, Timestamp dateAdded, Timestamp dateModified)
     {
-        super( TABLE_NAME, TABLE_COLUMNS );
         this.id=id;
         this.firstName=firstName;
         this.lastName=lastName;

@@ -18,6 +18,7 @@ package com.jorisrietveld.model;
  * the speedboat rental.
  */
 
+import com.jorisrietveld.model.Entity.Entity;
 import com.jorisrietveld.model.repository.*;
 
 import java.sql.*;
@@ -42,7 +43,7 @@ public class EntityManager
 
     public EntityManager(  )
     {
-
+        openDatabaseConnection();
     }
 
     public Repository getRepository( String repositoryName ) throws Exception
@@ -71,15 +72,17 @@ public class EntityManager
 
     public Repository storeRepo(Repository newRepository )
     {
-        storedRepos.put( newRepository.getName(), newRepository.setConnection( this.connection ) );
+        storedRepos.put( newRepository.getName(), newRepository.setConnection( this.connection ).setEntityManager( this ) );
         return newRepository;
     }
 
-    public void openDatabaseConnection() throws Exception
+    public void openDatabaseConnection()
     {
-            Class.forName( DATABASE_DRIVER );
+        try
+        {
+            Class.forName(DATABASE_DRIVER);
 
-            this.connection =DriverManager.getConnection( String.format(
+            this.connection=DriverManager.getConnection(String.format(
                     "jdbc:mysql://%s:%s/%s?user=%s&password=%s",
                     DATABASE_HOST,
                     DATABASE_PORT,
@@ -87,11 +90,10 @@ public class EntityManager
                     DATABASE_USER,
                     DATABASE_PASSWORD
             ));
+        }
+        catch( Exception e )
+        {
+            // do nothing
+        }
     }
-
-    public void persistEntity(Entity entityObject )
-    {
-
-    }
-
 }

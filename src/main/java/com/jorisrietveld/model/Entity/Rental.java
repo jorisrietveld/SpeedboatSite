@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,20 +22,6 @@ import java.util.ArrayList;
  */
 public class Rental extends Entity
 {
-    private static final String TABLE_NAME = "Rental";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("speedboatId");
-        add("customerId");
-        add("fuelLevelStart");
-        add("fuelLevelEnd");
-        add("currentlyRented");
-        add("rentedStartDate");
-        add("rentedEndDate");
-        add("dateAdded");
-        add("dateModified");
-    }};
-
     private SpeedBoat speedBoat;
     private Customer customer;
     private int fuelLevelStart;
@@ -52,7 +38,6 @@ public class Rental extends Entity
      */
     public Rental()
     {
-        super(TABLE_NAME,TABLE_COLUMNS);
     }
 
     /**
@@ -72,7 +57,7 @@ public class Rental extends Entity
      */
     public Rental(int id, SpeedBoat speedBoat, Customer customer, int fuelLevelStart, int fuelLevelEnd, boolean currentlyRented, Timestamp rentedStartDate, Timestamp rentedEndDate, ArrayList<DamageReport> damageReports, Timestamp dateAdded, Timestamp dateModified)
     {
-        super( TABLE_NAME,TABLE_COLUMNS );
+        this.id=id;
         this.speedBoat=speedBoat;
         this.customer=customer;
         this.fuelLevelStart=fuelLevelStart;
@@ -115,7 +100,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the speedBoat property.
      *
-     * @param speedBoat com.jorisrietveld.model.SpeedBoat
+     * @param speedBoat com.jorisrietveld.model.Entity.SpeedBoat
      */
     public void setSpeedBoat(SpeedBoat speedBoat)
     {
@@ -133,7 +118,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the customer property.
      *
-     * @param customer com.jorisrietveld.model.Customer
+     * @param customer com.jorisrietveld.model.Entity.Customer
      */
     public void setCustomer(Customer customer)
     {
@@ -223,7 +208,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the damageReports property.
      *
-     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.DamageReport>
+     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.Entity.DamageReport>
      */
     public void setDamageReports(ArrayList<DamageReport> damageReports)
     {

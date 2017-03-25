@@ -1,5 +1,11 @@
 package com.jorisrietveld.model.repository;
 
+import com.jorisrietveld.model.Entity.Customer;
+import com.jorisrietveld.model.Entity.DamageReport;
+import com.jorisrietveld.model.Entity.Entity;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -37,6 +43,39 @@ public class DamageReportRepository extends Repository
 
     public DamageReportRepository()
     {
-        super( "DamageReport" );
+        super( TABLE_NAME, TABLE_COLUMNS );
+    }
+    public DamageReport createDamageReportFromResultSet(ResultSet resultSet) throws Exception
+    {
+        return new DamageReport(
+                resultSet.getInt("id" ),
+                entityManager.getRepository("Rental").getById( resultSet.getInt("rentalId") ),
+                resultSet.getInt( "rentalId"),
+                resultSet.getString( "title"),
+                resultSet.getString("description"),
+                resultSet.getBigDecimal( "cost"),
+                resultSet.getTimestamp( "dateAdded" ),
+                resultSet.getTimestamp("dateModified")
+        );
+    }
+
+    public DamageReport getById( int id )
+    {
+        try
+        {
+            String sqlQuery=String.format("SELECT %s FROM `%s`.`%s` WHERE id = ? ", String.join(",", TABLE_COLUMNS), DATABASE_NAME, TABLE_NAME);
+
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            statement.setInt( 1, id );
+
+            ResultSet dbCustomer = statement.executeQuery();
+
+            return createCustomerFromResultSet( dbCustomer );
+        }
+        catch( Exception e )
+        {
+
+        }
+        return null;
     }
 }

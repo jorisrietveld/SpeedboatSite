@@ -1,10 +1,12 @@
 package com.jorisrietveld.model.repository;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import com.jorisrietveld.model.Entity;
-import com.jorisrietveld.model.SpeedBoat;
+import com.jorisrietveld.model.Entity.Entity;
+import com.jorisrietveld.model.Entity.SpeedBoat;
+import com.jorisrietveld.model.EntityManager;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -25,10 +27,13 @@ import com.jorisrietveld.model.SpeedBoat;
  */
 public abstract class Repository
 {
+    protected static final String DATABASE_NAME = "SpeedboatRentalSite";
+
     protected String repositoryName;
     protected String tableName;
     protected ArrayList<String> columnNames;
     protected Connection connection;
+    protected EntityManager entityManager;
 
     public Repository()
     {
@@ -76,15 +81,22 @@ public abstract class Repository
         this.columnNames=columnNames;
     }
 
-    public Entity getById(int entityId)
-    {
-
-        return new SpeedBoat();
-    }
+    //abstract public Entity getById(int entityId);
 
     public Repository setConnection(Connection connection)
     {
         this.connection=connection;
         return this;
+    }
+
+    public Repository setEntityManager(EntityManager entityManager )
+    {
+        this.entityManager = entityManager;
+        return this;
+    }
+
+    public EntityManager getEntityManager()
+    {
+        return entityManager;
     }
 }

@@ -1,4 +1,4 @@
-package com.jorisrietveld.model;
+package com.jorisrietveld.model.Entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -21,21 +21,8 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class SpeedBoat implements Entity
+public class SpeedBoat extends Entity
 {
-    private static final String TABLE_NAME = "Speedboat";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("weight");
-        add("horsePower");
-        add("boatNumber");
-        add("rent");
-        add("dateAdded");
-        add("dateModified");
-    }};
-
-    private boolean empty = true;
-    private int id;
     private int weight;
     private int horsePower;
     private int boatNumber;
