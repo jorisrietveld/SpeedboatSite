@@ -11,7 +11,7 @@
     <jsp:include page="head.jsp" />
 </head>
 <body>
-    <h1>500</h1>
+    <h1>${errorTitle}</h1>
     <h4>Oops... an error occurred, please try again later.</h4>
 </body>
 </html>

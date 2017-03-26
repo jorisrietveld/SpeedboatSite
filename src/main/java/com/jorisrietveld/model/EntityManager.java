@@ -18,8 +18,8 @@ package com.jorisrietveld.model;
  * the speedboat rental.
  */
 
-import com.jorisrietveld.model.Entity.Entity;
-import com.jorisrietveld.model.repository.*;
+import com.jorisrietveld.exception.EntityManagerException;
+import com.jorisrietveld.model.DAO.*;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -29,51 +29,53 @@ import java.util.HashMap;
  */
 public class EntityManager
 {
-    private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE_HOST = "127.0.0.1";
-    private static final String DATABASE_USER = "root";
-    private static final String DATABASE_PASSWORD = "toor";
-    private static final String DATABASE_PORT = "3306";
-    private static final String DATABASE_SCHEMA = "SpeedboatRentalSite";
+    private static final String DATABASE_DRIVER="com.mysql.jdbc.Driver";
+    private static final String DATABASE_HOST="127.0.0.1";
+    private static final String DATABASE_USER="root";
+    private static final String DATABASE_PASSWORD="toor";
+    private static final String DATABASE_PORT="3306";
+    private static final String DATABASE_SCHEMA="SpeedboatRentalSite";
 
-    private Connection connection = null;
+    private Connection connection=null;
+    private HashMap<DAO.Name, DAO> storedRepos=new HashMap<>();
 
-    public HashMap<String,Repository> storedRepos= new HashMap<>();
-
-
-    public EntityManager(  )
+    /**
+     * EntityName manager constructor, this constructor initiates the manager and opens an connection to the
+     * database server.
+     */
+    public EntityManager()
     {
         openDatabaseConnection();
     }
 
-    public Repository getRepository( String repositoryName ) throws Exception
+    public DAO find(DAO.Name entityName) throws EntityManagerException
     {
-        switch( repositoryName )
+        switch(entityName)
         {
-            case "Customer":
-                return storedRepos.containsKey( repositoryName ) ? storedRepos.get( repositoryName ) : storeRepo( new CustomerRepository());
+            case CUSTOMER:
+                return storedRepos.containsKey( DAO.Name.CUSTOMER ) ? storedRepos.get( DAO.Name.CUSTOMER ) : storeRepo(new CustomerDAO());
 
-            case "DamageReport":
-                return storedRepos.containsKey( repositoryName ) ? storedRepos.get(repositoryName) : storeRepo( new DamageReportRepository() );
+            case DAMAGE_REPORT:
+                return storedRepos.containsKey(DAO.Name.DAMAGE_REPORT) ? storedRepos.get(DAO.Name.DAMAGE_REPORT) : storeRepo(new DamageReportDAO());
 
-            case  "Rental":
-                return storedRepos.containsKey( repositoryName ) ? storedRepos.get( repositoryName ) : storeRepo( new RentalRepository());
+            case RENTAL:
+                return storedRepos.containsKey(DAO.Name.RENTAL) ? storedRepos.get(DAO.Name.RENTAL) : storeRepo(new RentalDAO());
 
-            case "SpeedBoat":
-                return storedRepos.containsKey( repositoryName ) ? storedRepos.get( repositoryName ) : storeRepo( new SpeedboatRepository());
+            case SPEEDBOAT:
+                return storedRepos.containsKey(DAO.Name.SPEEDBOAT) ? storedRepos.get(DAO.Name.SPEEDBOAT) : storeRepo(new SpeedboatDAO());
 
-            case "User":
-                return storedRepos.containsKey( repositoryName ) ? storedRepos.get( repositoryName ) : storeRepo( new UserRepository());
+            case USER:
+                return storedRepos.containsKey(DAO.Name.USER) ? storedRepos.get(DAO.Name.USER) : storeRepo(new UserDAO());
 
             default:
-                throw new Exception( String.format( "Repository %s is not an valid repository.", repositoryName ) );
+                throw new EntityManagerException(String.format("DAO %s is not an valid DAO.", entityName.getDisplayName() ));
         }
     }
 
-    public Repository storeRepo(Repository newRepository )
+    public DAO storeRepo(DAO newDAO)
     {
-        storedRepos.put( newRepository.getName(), newRepository.setConnection( this.connection ).setEntityManager( this ) );
-        return newRepository;
+        storedRepos.put( newDAO.getName() , newDAO.setConnection(this.connection).setEntityManager(this));
+        return newDAO;
     }
 
     public void openDatabaseConnection()
@@ -91,7 +93,7 @@ public class EntityManager
                     DATABASE_PASSWORD
             ));
         }
-        catch( Exception e )
+        catch(Exception e)
         {
             // do nothing
         }

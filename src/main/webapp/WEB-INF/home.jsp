@@ -44,13 +44,14 @@
 
 <main class="container">
     <section class="jumbotron row">
+        <h1>${name}</h1>
         <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Welcome at speedboat rental titanic</h2>
         <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             Titanic is one of the leading companies in speedboat rental in the arctic region. It has some of the best unsinkable
             speedboats that are iceberg proof so you don't need any lifeboats or life jackets. With Titanic &trade; you are
             guaranteed to have a life changing trip.
         </p>
-        <img class="col-lg-10 col-md-10 col-sm-10 col-xs-10 offset-lg-1 offset-md-1 offset-sm-1 offset-xs-1" src="resources/images/logo_text.png" alt="Titanic logo with text"/>
+        <img class="col-lg-10 col-md-10 col-sm-10 col-xs-10 offset-lg-1 offset-md-1 offset-sm-1 offset-xs-1" src="../resources/images/logo_text.png" alt="Titanic logo with text"/>
     </section>
 </main>
 

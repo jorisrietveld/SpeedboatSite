@@ -1,18 +1,48 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jorisrietveld.speedboat</groupId>
-  <artifactId>010</artifactId>
+  <groupId>com.jorisrietveld.titanic</groupId>
+  <artifactId>titanic-site</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>010 Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <version>0.1</version>
+  <name>Titanic website</name>
+  <url>https://github.com/jorisrietveld/SpeedboatSite</url>
+  <description>This package contains the code for the website: Titanic speedboat rental</description>
+
+  <licenses>
+    <license>
+      <name>GNU General Public Licence (GPL)</name>
+      <url>http://www.gnu.org/licenses/gpl.txt</url>
+      <distribution>Github repository</distribution>
+      <comments>Open-source rocks</comments>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>jrietveld</id>
+      <name>Joris Rietveld</name>
+      <email>jorisrietveld@gmail.com</email>
+      <url>http://jorisrietveld.tk</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europa/Amsterdam</timezone>
+      <properties>
+        <github-profile>https://github.com/jorisrietveld</github-profile>
+        <google-profile>https://plus.google.com/+JorisRietveld1995</google-profile>
+      </properties>
+    </developer>
+  </developers>
+
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
     </dependency>
     <!-- The javax standard tag library  -->
     <dependency>
@@ -24,11 +54,10 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.6</version>
+      <version>6.0.6</version>
     </dependency>
-
   </dependencies>
   <build>
-    <finalName>010</finalName>
+    <finalName>TitanicSite</finalName>
   </build>
 </project>

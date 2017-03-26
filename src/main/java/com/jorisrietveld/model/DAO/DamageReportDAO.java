@@ -1,8 +1,7 @@
-package com.jorisrietveld.model.repository;
+package com.jorisrietveld.model.DAO;
 
-import com.jorisrietveld.model.Entity.Customer;
 import com.jorisrietveld.model.Entity.DamageReport;
-import com.jorisrietveld.model.Entity.Entity;
+import com.jorisrietveld.model.Entity.Rental;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class DamageReportRepository extends Repository
+public class DamageReportDAO extends DAO
 {
     /**
      * Initiate the default table settings for the DamageReport Repo.
@@ -41,16 +40,16 @@ public class DamageReportRepository extends Repository
         add("dateModified");
     }};
 
-    public DamageReportRepository()
+    public DamageReportDAO()
     {
-        super( TABLE_NAME, TABLE_COLUMNS );
+        super( Name.DAMAGE_REPORT, TABLE_COLUMNS );
     }
+
     public DamageReport createDamageReportFromResultSet(ResultSet resultSet) throws Exception
     {
         return new DamageReport(
                 resultSet.getInt("id" ),
-                entityManager.getRepository("Rental").getById( resultSet.getInt("rentalId") ),
-                resultSet.getInt( "rentalId"),
+                (Rental)getEntityManager().find( Name.RENTAL ).getById( resultSet.getInt("rentalId") ),
                 resultSet.getString( "title"),
                 resultSet.getString("description"),
                 resultSet.getBigDecimal( "cost"),
@@ -70,7 +69,7 @@ public class DamageReportRepository extends Repository
 
             ResultSet dbCustomer = statement.executeQuery();
 
-            return createCustomerFromResultSet( dbCustomer );
+            return createDamageReportFromResultSet( dbCustomer );
         }
         catch( Exception e )
         {

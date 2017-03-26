@@ -1,10 +1,8 @@
-package com.jorisrietveld.model.repository;
-
-import java.util.ArrayList;
+package com.jorisrietveld.exception;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 22-03-2017 11:45
+ * Created on: 26-03-2017 16:51
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -19,14 +17,10 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class UserRepository extends Repository
+public class EntityManagerException extends Exception
 {
-    private static final String TABLE_NAME = "User";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
-        add("id");
-        add("username");
-        add("password");
-        add("dateAdded");
-        add("dateModified");
-    }};
+    public EntityManagerException(String s)
+    {
+        super(s);
+    }
 }

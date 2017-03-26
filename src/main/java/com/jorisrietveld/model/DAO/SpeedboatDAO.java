@@ -1,10 +1,12 @@
-package com.jorisrietveld.model.repository;
+package com.jorisrietveld.model.DAO;
+
+import com.jorisrietveld.model.Entity.Entity;
 
 import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 18-03-2017 11:15
+ * Created on: 20-03-2017 15:09
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -19,19 +21,27 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class RentalRepository extends Repository
+public class SpeedboatDAO extends DAO
 {
-    private static final String TABLE_NAME = "Rental";
+    private static final String TABLE_NAME = "Speedboat";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
         add("id");
-        add("speedboatId");
-        add("customerId");
-        add("fuelLevelStart");
-        add("fuelLevelEnd");
-        add("currentlyRented");
-        add("rentedStartDate");
-        add("rentedEndDate");
+        add("weight");
+        add("horsePower");
+        add("boatNumber");
+        add("rent");
         add("dateAdded");
         add("dateModified");
     }};
+
+    public SpeedboatDAO()
+    {
+        super(Name.SPEEDBOAT, TABLE_COLUMNS );
+    }
+
+    @Override
+    public Entity getById(int entityId)
+    {
+        return null;
+    }
 }

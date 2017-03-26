@@ -1,16 +1,14 @@
-package com.jorisrietveld.servlets;
+package com.jorisrietveld.controller;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 21-03-2017 17:51
+ * Created on: 26-03-2017 18:18
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -25,21 +23,28 @@ import java.io.PrintWriter;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-@WebServlet("/ServletTest")
-public class ServletTest extends HttpServlet
+public class FrontController extends HttpServlet
 {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        try
+        {
+            Action action=ActionFactory.getAction(request);
+            String view=action.execute(request, response);
 
-    }
+            if(view.equals(request.getPathInfo().substring(1)))
+            {
+                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-
-        out.println( "<html><body>" );
-        out.println( "Speedboat rental service" );
-        out.println( "</body></html>" );
+            }
+            else
+            {
+                response.sendRedirect(view); // We'd like to fire redirect in case of a view change as result of the action (PRG pattern).
+            }
+        }
+        catch(Exception e)
+        {
+            throw new ServletException("Executing action failed.", e);
+        }
     }
 }

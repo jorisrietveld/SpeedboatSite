@@ -13,8 +13,8 @@
         <link rel="stylesheet" href="resources/third-party/bootstrap/dist/css/bootstrap-theme.min.css"/>
         <link rel="stylesheet" href="resources/css/styles.css"/>
 
-        <script src="resources/third-party/jquery/dist/jquery.min.js"></script>
-        <script src="resources/third-party/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="resources/js/script.js"></script>
+        <script src="../resources/third-party/jquery/dist/jquery.min.js"></script>
+        <script src="../resources/third-party/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../resources/js/script.js"></script>
 
 

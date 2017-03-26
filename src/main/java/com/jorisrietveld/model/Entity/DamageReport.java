@@ -89,7 +89,7 @@ public class DamageReport extends Entity
     /**
      * Sets the value of the rental property.
      *
-     * @param rental com.jorisrietveld.model.Entity.Rental
+     * @param rental com.jorisrietveld.model.EntityName.Rental
      */
     public void setRental(Rental rental)
     {

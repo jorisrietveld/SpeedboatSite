@@ -100,7 +100,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the speedBoat property.
      *
-     * @param speedBoat com.jorisrietveld.model.Entity.SpeedBoat
+     * @param speedBoat com.jorisrietveld.model.EntityName.SpeedBoat
      */
     public void setSpeedBoat(SpeedBoat speedBoat)
     {
@@ -118,7 +118,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the customer property.
      *
-     * @param customer com.jorisrietveld.model.Entity.Customer
+     * @param customer com.jorisrietveld.model.EntityName.Customer
      */
     public void setCustomer(Customer customer)
     {
@@ -208,7 +208,7 @@ public class Rental extends Entity
     /**
      * Sets the value of the damageReports property.
      *
-     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.Entity.DamageReport>
+     * @param damageReports java.util.ArrayList<com.jorisrietveld.model.EntityName.DamageReport>
      */
     public void setDamageReports(ArrayList<DamageReport> damageReports)
     {
