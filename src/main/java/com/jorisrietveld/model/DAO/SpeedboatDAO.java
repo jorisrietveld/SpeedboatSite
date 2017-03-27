@@ -1,9 +1,11 @@
 package com.jorisrietveld.model.DAO;
 
 import com.jorisrietveld.model.Entity.Entity;
+import com.jorisrietveld.model.Entity.SpeedBoat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,7 @@ public class SpeedboatDAO extends DAO
         add("weight");
         add("horsePower");
         add("boatNumber");
+        add("length");
         add("rent");
         add("dateAdded");
         add("dateModified");
@@ -45,18 +48,26 @@ public class SpeedboatDAO extends DAO
      * Constructs an new Entity collection from an database result set.
      * @param resultSet The database query result.
      */
-    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet ) throws SQLException
+   /* protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet ) throws SQLException
     {
-        return new
-    }
+        return new ArrayList<Entity>();
+    }*/
 
     /**
      * Constructs an new Entity from an database result set.
-     * @param resultSet The database query result.
      */
-    protected Entity createEntityFromResultSet(ResultSet resultSet ) throws SQLException
+    protected Entity createEntityFromResultSet() throws SQLException
     {
-        return new
+        return new SpeedBoat(
+                currentResultSet.getInt( "id" ),
+                currentResultSet.getInt( "weight" ),
+                currentResultSet.getInt("horsePower"),
+                currentResultSet.getInt("boatNumber"),
+                currentResultSet.getInt("length"),
+                currentResultSet.getBigDecimal("rent"),
+                currentResultSet.getTimestamp( "dateAdded"),
+                currentResultSet.getTimestamp( "dateModified")
+        );
     }
 
 }

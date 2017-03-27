@@ -2,7 +2,6 @@ package com.jorisrietveld.model.Entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
@@ -21,7 +20,7 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class SpeedBoat extends Entity
+public class SpeedBoat extends Entity implements EntityContract
 {
     private int weight;
     private int horsePower;

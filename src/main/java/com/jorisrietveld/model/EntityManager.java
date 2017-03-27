@@ -53,7 +53,7 @@ public class EntityManager
         switch(entityEntityNAME)
         {
             case CUSTOMER:
-                return storedRepos.containsKey( DAO.ENTITY_NAME.CUSTOMER ) ? storedRepos.get( DAO.ENTITY_NAME.CUSTOMER ) : storeRepo(new CustomerDAO());
+                return storedRepos.containsKey(DAO.ENTITY_NAME.CUSTOMER) ? storedRepos.get(DAO.ENTITY_NAME.CUSTOMER) : storeRepo(new CustomerDAO());
 
             case DAMAGE_REPORT:
                 return storedRepos.containsKey(DAO.ENTITY_NAME.DAMAGE_REPORT) ? storedRepos.get(DAO.ENTITY_NAME.DAMAGE_REPORT) : storeRepo(new DamageReportDAO());
@@ -68,13 +68,13 @@ public class EntityManager
                 return storedRepos.containsKey(DAO.ENTITY_NAME.USER) ? storedRepos.get(DAO.ENTITY_NAME.USER) : storeRepo(new UserDAO());
 
             default:
-                throw new EntityManagerException(String.format("DAO %s is not an valid DAO.", entityEntityNAME.getName() ));
+                throw new EntityManagerException(String.format("DAO %s is not an valid DAO.", entityEntityNAME.getName()));
         }
     }
 
     public DAO storeRepo(DAO newDAO)
     {
-        storedRepos.put( newDAO.getName() , newDAO.setConnection(this.connection).setEntityManager(this));
+        storedRepos.put(newDAO.getName(), newDAO.setConnection(this.connection).setEntityManager(this));
         return newDAO;
     }
 

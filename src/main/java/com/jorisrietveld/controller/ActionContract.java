@@ -1,16 +1,11 @@
 package com.jorisrietveld.controller;
 
-import com.jorisrietveld.controller.Actions.HomeAction;
-import org.jetbrains.annotations.NotNull;
-
-import javax.servlet.ServletRequest;
-import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 26-03-2017 18:40
+ * Created on: 27-03-2017 11:35
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -25,17 +20,7 @@ import java.util.Map;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class ActionFactory
+public interface ActionContract
 {
-    protected HashMap<String,String[][]> config = new HashMap<String, String[][]>(){{
-            put("HomeAction", new String[][]{
-                    { "http-method", "POST", "GET" },
-                    { "url", "/"}
-            } );
-    }};
-
-    public static Action getAction(ServletRequest request)
-    {
-        return new HomeAction();
-    }
+    String execute(HttpServletRequest request, HttpServletResponse response ) throws Exception;
 }

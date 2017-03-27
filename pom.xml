@@ -56,6 +56,11 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>6.0.6</version>
     </dependency>
+      <dependency>
+          <groupId>org.jetbrains</groupId>
+          <artifactId>annotations</artifactId>
+          <version>RELEASE</version>
+      </dependency>
   </dependencies>
   <build>
     <finalName>TitanicSite</finalName>

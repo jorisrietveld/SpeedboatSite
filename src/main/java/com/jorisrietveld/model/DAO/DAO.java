@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,7 +38,7 @@ public abstract class DAO
     /**
      * The entity name of the data access object.
      */
-    private ENTITY_NAME DAOEntityNAME;
+    public ENTITY_NAME DAOEntityNAME;
 
     /**
      * The column/attribute names of the table/entity
@@ -53,6 +54,11 @@ public abstract class DAO
      * An instance of the entity manager used to receive data from the database.
      */
     private EntityManager entityManager;
+
+    /**
+     * An database result set that contains data from the database.
+     */
+    protected ResultSet currentResultSet;
 
     /**
      * An enumeration of the entities/tables that exists in the database
@@ -110,110 +116,192 @@ public abstract class DAO
      */
     protected Function<ArrayList<String>, String> buildColumnList=(c) -> c.stream().map(addBackticks).collect(Collectors.joining(", "));
 
-    /** ================================================================================================================
-     *                              Some experiments with functional programming                                       *
-     * =================================================================================================================
-     *
-     // Experiment with higher level lambada functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     public Function<ArrayList<String>, String> buildColumnString= (columnList) ->
-     columnList.stream().map( column ->
-     new StringBuilder(column.length() + 2).append("`").append(column).append("`").toString()
-     ).collect( Collectors.joining(", "));
-
-     // Experiment with an short higher level lambada function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     public Function<ArrayList<String>, String> a=l->l.stream().map(c->("`"+c+"`")).collect(Collectors.joining(", "));
-
-     // An non functional approach +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     public String buildColumnString( ArrayList<String> columns)
-     {
-     StringBuilder columnString = new StringBuilder();
-     int iterationCounter = 1;
-
-     for( String column : columns )
-     {
-     columnString.append( "`" ).append( column ).append( "`" + ( iterationCounter < columns.size() ? ", " : " ") )
-     }
-     return columnString;
-     }
-
-     */
-
     /**
      * Constructs an new Entity from an database result set.
-     * @param resultSet The database query result.
      */
-    protected abstract Entity createEntityFromResultSet( ResultSet resultSet )throws SQLException, EntityManagerException;
+    protected abstract Entity createEntityFromResultSet() throws SQLException, EntityManagerException;
 
     /**
      * Constructs an new Entity collection from an database result set.
-     * @param resultSet The database query result.
      */
-    protected abstract ArrayList<Entity> createEntitiesFromResultSet( ResultSet resultSet )throws SQLException, EntityManagerException;
+    protected ArrayList<Entity> createEntitiesFromResultSet() throws SQLException, EntityManagerException
+    {
+        ArrayList<Entity> entities=new ArrayList<>();
+
+        while(currentResultSet.next())
+        {
+            entities.add(createEntityFromResultSet());
+        }
+        return entities;
+    }
 
     /**
      * Gets an entity from the database
      *
      * @param entityId The unique identification code of the record.
-     * @return Entity
      */
     public Entity getById(int entityId) throws SQLException, EntityManagerException
     {
-        PreparedStatement preparedStatement=connection.prepareStatement(
-                String.format("SELECT %s FROM %s WHERE `%s`.`id` = ?",
-                        buildColumnList.apply(columnNames),
-                        DAOEntityNAME.getName(),
-                        DAOEntityNAME.getName()
-                ));
+        PreparedStatement preparedStatement=connection.prepareStatement(String.format(
+                "SELECT %s FROM `%2$s`.`%3$s` WHERE `%3$s`.`id` = ?",
+                buildColumnList.apply(columnNames),
+                DATABASE_NAME,
+                DAOEntityNAME.getName()
+        ));
 
-        preparedStatement.setInt( 1, entityId );
-        ResultSet queryResult = preparedStatement.executeQuery();
+        preparedStatement.setInt(1, entityId);
+        ResultSet queryResult=preparedStatement.executeQuery();
 
-        if( !queryResult.isBeforeFirst() )
+        if(!queryResult.isBeforeFirst())
         {
-            return createEntityFromResultSet( queryResult );
+            this.currentResultSet=queryResult;
+            return createEntityFromResultSet();
         }
         return null;
     }
 
     /**
      * Function to get all the entities from an certain entity type.
-     * @return
+     *
      * @throws SQLException
      */
     public ArrayList<Entity> getAll() throws SQLException, EntityManagerException
     {
-        PreparedStatement preparedStatement=connection.prepareStatement(
-                String.format("SELECT %s FROM %s",
-                        buildColumnList.apply(columnNames),
-                        DATABASE_NAME
-                ));
+        PreparedStatement preparedStatement=connection.prepareStatement(String.format(
+                "SELECT %s FROM `%s`.`%s`",
+                buildColumnList.apply(columnNames),
+                DATABASE_NAME,
+                DAOEntityNAME.getName()
+        ));
 
-        ResultSet queryResult = preparedStatement.executeQuery();
+        ResultSet queryResult=preparedStatement.executeQuery();
 
-        if( !queryResult.isBeforeFirst() )
+        if(!queryResult.isBeforeFirst())
         {
-            return createEntitiesFromResultSet( queryResult );
+            this.currentResultSet=queryResult;
+            return createEntitiesFromResultSet();
         }
         return null;
     }
 
-    public ArrayList<Entity> getWhere( String sqlStatement, ArrayList<Object> sqlParameters ) throws SQLException, EntityManagerException
+    /**
+     * Gets an entity collection from entities that matches a certain condition.
+     *
+     * @param whereClause The sql where clause string without the WHERE keyword.
+     * @param parameters  An array list wil the parameter values that will get bound to the placeholders in the where clause.
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public ArrayList<Entity> getWhere(String whereClause, ArrayList<Object> parameters) throws SQLException, EntityManagerException
     {
-        PreparedStatement preparedStatement=connection.prepareStatement( sqlStatement );
-        int parameterCounter = 0;
-
-        for( Object sqlParameter :sqlParameters )
+        PreparedStatement preparedStatement=connection.prepareStatement(String.format(
+                "SELECT %s FROM `%s`.`%s` WHERE %s",
+                buildColumnList.apply(columnNames),
+                DATABASE_NAME,
+                DAOEntityNAME.getName(),
+                whereClause
+        ));
+        for(int parameterCounter=1; parameterCounter <= parameters.size(); parameterCounter++)
         {
-            preparedStatement.setObject( ++parameterCounter, sqlParameter );
+            preparedStatement.setObject(parameterCounter, parameters.get(parameterCounter - 1));
         }
 
-        ResultSet queryResult = preparedStatement.executeQuery();
+        this.currentResultSet=preparedStatement.executeQuery();
 
-        if( !queryResult.isBeforeFirst() )
+        if(!this.currentResultSet.isBeforeFirst())
         {
-            return createEntitiesFromResultSet( queryResult );
+            return createEntitiesFromResultSet();
         }
+
         return null;
+    }
+
+    /**
+     * Gets an entity collection from entities that matches a certain condition.
+     *
+     * @param whereClause The sql where clause string without the WHERE keyword.
+     * @param parameters  An array list wil the parameter values that will get bound to the placeholders in the where clause.
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public Entity getOneWhere(String whereClause, ArrayList<Object> parameters) throws SQLException, EntityManagerException
+    {
+        PreparedStatement preparedStatement=connection.prepareStatement(String.format(
+                "SELECT %s FROM `%s`.`%s` WHERE %s LIMIT 1",
+                buildColumnList.apply(columnNames),
+                DATABASE_NAME,
+                DAOEntityNAME.getName(),
+                whereClause
+        ));
+
+        for(int parameterCounter=1; parameterCounter <= parameters.size(); parameterCounter++)
+        {
+            preparedStatement.setObject(parameterCounter, parameters.get(parameterCounter - 1));
+        }
+
+        this.currentResultSet=preparedStatement.executeQuery();
+
+        if(!this.currentResultSet.isBeforeFirst())
+        {
+            return createEntityFromResultSet();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets an entity collection of entities that were created within an certain time range.
+     *
+     * @param startDate The start date of the range.
+     * @param endDate   The end date of the range.
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public ArrayList<Entity> getByAddedRange(Timestamp startDate, Timestamp endDate) throws SQLException, EntityManagerException
+    {
+        return getWhere(" `%s`.`dateAdded` BETWEEN ? AND ? ", new ArrayList<Object>()
+        {{
+            add(startDate);
+            add(endDate);
+        }});
+    }
+
+    /**
+     * An simpler implementation of the method above, it gets the records from an certain date to NOW()
+     * @param fromDate The start date
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public ArrayList<Entity> getByAddedRange( Timestamp fromDate ) throws SQLException, EntityManagerException
+    {
+        return getByAddedRange( fromDate, new Timestamp(System.currentTimeMillis()) );
+    }
+
+    /**
+     * Gets an entity collection of entities that were modified within an certain time range.
+     * @param startDate The start date of the range.
+     * @param endDate The end date of the range.
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public ArrayList<Entity> getByModifiedRange( Timestamp startDate, Timestamp endDate ) throws SQLException, EntityManagerException
+    {
+        return getWhere(" `%s`.`dateModified` BETWEEN ? AND ? ", new ArrayList<Object>()
+        {{
+            add(startDate);
+            add(endDate);
+        }});
+    }
+
+    /**
+     * An simpler implementation of the method above, it gets the records from an certain date to NOW()
+     * @param fromDate The start date
+     * @throws SQLException
+     * @throws EntityManagerException
+     */
+    public ArrayList<Entity> getByModifiedRange( Timestamp fromDate ) throws SQLException, EntityManagerException
+    {
+        return getByModifiedRange( fromDate, new Timestamp(System.currentTimeMillis()) );
     }
 
     /**
@@ -242,7 +330,7 @@ public abstract class DAO
      * @param connection The active connection to the database server.
      * @return DAO return the DAO so you can chain instantiate it.
      */
-    protected DAO setConnection(Connection connection)
+    public DAO setConnection(Connection connection)
     {
         this.connection=connection;
         return this;
@@ -269,4 +357,32 @@ public abstract class DAO
     {
         return entityManager;
     }
+
+    /** ================================================================================================================
+     *                              Some experiments with functional programming                                       *
+     * =================================================================================================================
+     *
+     // Experiment with higher level lambada functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     public Function<ArrayList<String>, String> buildColumnString= (columnList) ->
+     columnList.stream().map( column ->
+     new StringBuilder(column.length() + 2).append("`").append(column).append("`").toString()
+     ).collect( Collectors.joining(", "));
+
+     // Experiment with an short higher level lambada function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     public Function<ArrayList<String>, String> a=l->l.stream().map(c->("`"+c+"`")).collect(Collectors.joining(", "));
+
+     // An non functional approach +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     public String buildColumnString( ArrayList<String> columns)
+     {
+     StringBuilder columnString = new StringBuilder();
+     int iterationCounter = 1;
+
+     for( String column : columns )
+     {
+     columnString.append( "`" ).append( column ).append( "`" + ( iterationCounter < columns.size() ? ", " : " ") )
+     }
+     return columnString;
+     }
+
+     */
 }

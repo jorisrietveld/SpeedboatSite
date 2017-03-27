@@ -1,6 +1,8 @@
 package com.jorisrietveld.controller;
 
+import javax.jws.WebMethod;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import java.io.IOException;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
+@WebServlet(name="app", urlPatterns = "/*", description = "The sites front controller")
 public class FrontController extends HttpServlet
 {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

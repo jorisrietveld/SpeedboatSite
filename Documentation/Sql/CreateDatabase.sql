@@ -90,3 +90,5 @@ CREATE TABLE `User`(
 
   CONSTRAINT pk_user PRIMARY KEY User(`id`)
 );
+
+SELECT `id`, `username` FROM `SpeedboatRentalSite`.`User` WHERE `User`.`username` = 1;

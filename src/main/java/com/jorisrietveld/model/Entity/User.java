@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class User extends Entity
+public class User extends Entity implements EntityContract
 {
     private String username;
     private String password;

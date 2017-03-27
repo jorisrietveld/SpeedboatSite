@@ -1,6 +1,7 @@
 package com.jorisrietveld.model.DAO;
 
 import com.jorisrietveld.exception.EntityManagerException;
+import com.jorisrietveld.model.Entity.Customer;
 import com.jorisrietveld.model.Entity.DamageReport;
 import com.jorisrietveld.model.Entity.Entity;
 import com.jorisrietveld.model.Entity.Rental;
@@ -49,38 +50,17 @@ public class DamageReportDAO extends DAO
 
     /**
      * Constructs an new Entity from an database result set.
-     * @param resultSet The database query result.
      */
-    protected Entity createEntityFromResultSet(ResultSet resultSet ) throws SQLException, EntityManagerException
+    protected Entity createEntityFromResultSet() throws SQLException, EntityManagerException
     {
         return new DamageReport(
-                resultSet.getInt("id" ),
-                (Rental)getEntityManager().find( ENTITY_NAME.RENTAL ).getById( resultSet.getInt("rentalId") ),
-                resultSet.getString( "title"),
-                resultSet.getString("description"),
-                resultSet.getBigDecimal( "cost"),
-                resultSet.getTimestamp( "dateAdded" ),
-                resultSet.getTimestamp("dateModified")
+                currentResultSet.getInt("id" ),
+                (Rental)getEntityManager().find( ENTITY_NAME.RENTAL ).getById( currentResultSet.getInt("rentalId") ),
+                currentResultSet.getString( "title"),
+                currentResultSet.getString("description"),
+                currentResultSet.getBigDecimal( "cost"),
+                currentResultSet.getTimestamp( "dateAdded" ),
+                currentResultSet.getTimestamp("dateModified")
         );
-    }
-
-    public DamageReport getById( int id )
-    {
-        try
-        {
-            String sqlQuery=String.format("SELECT %s FROM `%s`.`%s` WHERE id = ? ", String.join(",", TABLE_COLUMNS), DATABASE_NAME, TABLE_NAME);
-
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setInt( 1, id );
-
-            ResultSet dbCustomer = statement.executeQuery();
-
-            return createDamageReportFromResultSet( dbCustomer );
-        }
-        catch( Exception e )
-        {
-
-        }
-        return null;
     }
 }

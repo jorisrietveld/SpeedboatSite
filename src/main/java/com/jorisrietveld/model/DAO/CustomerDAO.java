@@ -1,7 +1,9 @@
 package com.jorisrietveld.model.DAO;
 
+import com.jorisrietveld.exception.EntityManagerException;
 import com.jorisrietveld.model.Entity.Customer;
 import com.jorisrietveld.model.Entity.Entity;
+import com.jorisrietveld.model.Entity.EntityContract;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,41 +53,17 @@ public class CustomerDAO extends DAO
 
     /**
      * Creates an Customer object from an database result set.
-     * @param resultSet The database result set containing an customer.
      */
-    protected Customer createEntityFromResultSet(ResultSet resultSet)throws SQLException
+    protected Customer createEntityFromResultSet()throws SQLException, EntityManagerException
     {
         return new Customer(
-                resultSet.getInt("id"),
-                resultSet.getString("firstName"),
-                resultSet.getString("lastName"),
-                resultSet.getString("email"),
-                resultSet.getString("telephoneNumber"),
-                resultSet.getTimestamp("dateAdded"),
-                resultSet.getTimestamp("dateModified")
+                currentResultSet.getInt("id"),
+                currentResultSet.getString("firstName"),
+                currentResultSet.getString("lastName"),
+                currentResultSet.getString("email"),
+                currentResultSet.getString("telephoneNumber"),
+                currentResultSet.getTimestamp("dateAdded"),
+                currentResultSet.getTimestamp("dateModified")
         );
-    }
-
-    /**
-     * Constructs an new Customer collection from an database result set.
-     * @param resultSet The database query result.
-     */
-    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet)throws SQLException
-    {
-        ArrayList<Entity> customers = new ArrayList<>();
-
-        while(resultSet.next())
-        {
-            customers.add(new Customer(
-                    resultSet.getInt("id"),
-                    resultSet.getString("firstName"),
-                    resultSet.getString("lastName"),
-                    resultSet.getString("email"),
-                    resultSet.getString("telephoneNumber"),
-                    resultSet.getTimestamp("dateAdded"),
-                    resultSet.getTimestamp("dateModified")
-            ));
-        }
-        return customers;
     }
 }
