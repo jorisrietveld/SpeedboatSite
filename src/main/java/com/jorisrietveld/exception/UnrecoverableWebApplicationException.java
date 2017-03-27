@@ -1,11 +1,8 @@
-package com.jorisrietveld.controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package com.jorisrietveld.exception;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 27-03-2017 11:35
+ * Created on: 27-03-2017 12:46
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -20,7 +17,29 @@ import javax.servlet.http.HttpServletResponse;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public interface ActionContract
+public class UnrecoverableWebApplicationException extends Exception
 {
-    String execute(HttpServletRequest request, HttpServletResponse response ) throws Exception;
+    public UnrecoverableWebApplicationException()
+    {
+    }
+
+    public UnrecoverableWebApplicationException(String s)
+    {
+        super(s);
+    }
+
+    public UnrecoverableWebApplicationException(String s, Throwable throwable)
+    {
+        super(s, throwable);
+    }
+
+    public UnrecoverableWebApplicationException(Throwable throwable)
+    {
+        super(throwable);
+    }
+
+    public UnrecoverableWebApplicationException(String s, Throwable throwable, boolean b, boolean b1)
+    {
+        super(s, throwable, b, b1);
+    }
 }

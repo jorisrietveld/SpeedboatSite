@@ -3,23 +3,8 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 
- <!-- <servlet>
-    <servlet-name>Titanic-site</servlet-name>
-    <servlet-clcom.jorisrietveld.controller.HomeActionActionHome</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Titanic-site</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-nLoginActionogin</servlet-name>
-    <servlet-clcom.jorisrietveld.controller.LoginActionActionogin</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-nLoginActionogin</servlet-name>
-    <url-pattern>/login</url-pattern>
-  </servlet-mapping>
--->
+ <error-page>
+  <location>/error</location>
+ </error-page>
+
 </web-app>

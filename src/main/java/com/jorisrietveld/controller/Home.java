@@ -1,15 +1,14 @@
-package com.jorisrietveld.controller.Actions;
+package com.jorisrietveld.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 26-03-2017 17:53
+ * Created on: 27-03-2017 12:17
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -24,20 +23,17 @@ import java.io.IOException;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-@WebServlet(name="LoginAction", urlPatterns = "/login", description = "Route for welcoming a user on the website")
-public class LoginAction extends HttpServlet
+@WebServlet(
+        name="HomeAction",
+        description="Route for welcoming a user on the website",
+        urlPatterns={"/home", ""}
+)
+public class Home extends BaseController
 {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-
-    }
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-       response.setStatus(405);
-       response.getWriter()
-               .append("<html><head>")
-               .append( "Error 405, this HTTP method is not allowed for the route: " )
-               .append(getServletContext().getContextPath());
+        request.setAttribute("name", "Joris Rietveld");
+        request.getRequestDispatcher( "/WEB-INF/home.jsp").forward( request, response );
     }
 }

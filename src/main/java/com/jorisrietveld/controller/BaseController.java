@@ -1,14 +1,15 @@
-package com.jorisrietveld.controller.Actions;
+package com.jorisrietveld.controller;
 
-import com.jorisrietveld.controller.Action;
-import com.jorisrietveld.controller.ActionContract;
+import com.jorisrietveld.exception.UnrecoverableWebApplicationException;
+import com.jorisrietveld.model.EntityManager;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
- * Created on: 27-03-2017 11:33
+ * Created on: 27-03-2017 12:25
  * Licence: GPLv3 - General public licence version 3.
  * Teachers: Rob loves and  Winnie van Schilt
  * <p>
@@ -23,19 +24,41 @@ import javax.servlet.http.HttpServletResponse;
  * profit earned and the damage that the speedboat accumulated during
  * the speedboat rental.
  */
-public class TestAction extends Action implements ActionContract
+abstract class BaseController extends HttpServlet
 {
-    public String execute(HttpServletRequest request, HttpServletResponse response)
-    {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    private EntityManager entityManager;
 
-        if (true) {
-            return "home"; // Redirect to home page.
-        }
-        else {
-            request.setAttribute("error", "Unknown username/password. Please retry."); // Store error message in request scope.
-            return "login"; // Go back to redisplay login form with error.
+    public BaseController()
+    {
+        initBaseController();
+    }
+
+    public BaseController( boolean saveMode )
+    {
+        if( saveMode )
+        {
+            initBaseController();
         }
     }
+
+    public void initBaseController(  )
+    {
+        this.entityManager = new EntityManager();
+    }
+
+    public EntityManager getEntityManager()
+    {
+        if( entityManager == null )
+        {
+            initBaseController();
+        }
+        return entityManager;
+    }
+
+    public String createJsonResponse(  )
+    {
+
+    }
+
+
 }
