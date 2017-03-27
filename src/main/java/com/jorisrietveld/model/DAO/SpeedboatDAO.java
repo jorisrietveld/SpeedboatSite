@@ -2,6 +2,8 @@ package com.jorisrietveld.model.DAO;
 
 import com.jorisrietveld.model.Entity.Entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -36,12 +38,25 @@ public class SpeedboatDAO extends DAO
 
     public SpeedboatDAO()
     {
-        super(Name.SPEEDBOAT, TABLE_COLUMNS );
+        super(ENTITY_NAME.SPEEDBOAT, TABLE_COLUMNS );
     }
 
-    @Override
-    public Entity getById(int entityId)
+    /**
+     * Constructs an new Entity collection from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet ) throws SQLException
     {
-        return null;
+        return new
     }
+
+    /**
+     * Constructs an new Entity from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected Entity createEntityFromResultSet(ResultSet resultSet ) throws SQLException
+    {
+        return new
+    }
+
 }

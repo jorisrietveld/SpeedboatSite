@@ -37,7 +37,7 @@ public class EntityManager
     private static final String DATABASE_SCHEMA="SpeedboatRentalSite";
 
     private Connection connection=null;
-    private HashMap<DAO.Name, DAO> storedRepos=new HashMap<>();
+    private HashMap<DAO.ENTITY_NAME, DAO> storedRepos=new HashMap<>();
 
     /**
      * EntityName manager constructor, this constructor initiates the manager and opens an connection to the
@@ -48,27 +48,27 @@ public class EntityManager
         openDatabaseConnection();
     }
 
-    public DAO find(DAO.Name entityName) throws EntityManagerException
+    public DAO find(DAO.ENTITY_NAME entityEntityNAME) throws EntityManagerException
     {
-        switch(entityName)
+        switch(entityEntityNAME)
         {
             case CUSTOMER:
-                return storedRepos.containsKey( DAO.Name.CUSTOMER ) ? storedRepos.get( DAO.Name.CUSTOMER ) : storeRepo(new CustomerDAO());
+                return storedRepos.containsKey( DAO.ENTITY_NAME.CUSTOMER ) ? storedRepos.get( DAO.ENTITY_NAME.CUSTOMER ) : storeRepo(new CustomerDAO());
 
             case DAMAGE_REPORT:
-                return storedRepos.containsKey(DAO.Name.DAMAGE_REPORT) ? storedRepos.get(DAO.Name.DAMAGE_REPORT) : storeRepo(new DamageReportDAO());
+                return storedRepos.containsKey(DAO.ENTITY_NAME.DAMAGE_REPORT) ? storedRepos.get(DAO.ENTITY_NAME.DAMAGE_REPORT) : storeRepo(new DamageReportDAO());
 
             case RENTAL:
-                return storedRepos.containsKey(DAO.Name.RENTAL) ? storedRepos.get(DAO.Name.RENTAL) : storeRepo(new RentalDAO());
+                return storedRepos.containsKey(DAO.ENTITY_NAME.RENTAL) ? storedRepos.get(DAO.ENTITY_NAME.RENTAL) : storeRepo(new RentalDAO());
 
             case SPEEDBOAT:
-                return storedRepos.containsKey(DAO.Name.SPEEDBOAT) ? storedRepos.get(DAO.Name.SPEEDBOAT) : storeRepo(new SpeedboatDAO());
+                return storedRepos.containsKey(DAO.ENTITY_NAME.SPEEDBOAT) ? storedRepos.get(DAO.ENTITY_NAME.SPEEDBOAT) : storeRepo(new SpeedboatDAO());
 
             case USER:
-                return storedRepos.containsKey(DAO.Name.USER) ? storedRepos.get(DAO.Name.USER) : storeRepo(new UserDAO());
+                return storedRepos.containsKey(DAO.ENTITY_NAME.USER) ? storedRepos.get(DAO.ENTITY_NAME.USER) : storeRepo(new UserDAO());
 
             default:
-                throw new EntityManagerException(String.format("DAO %s is not an valid DAO.", entityName.getDisplayName() ));
+                throw new EntityManagerException(String.format("DAO %s is not an valid DAO.", entityEntityNAME.getName() ));
         }
     }
 

@@ -3,6 +3,8 @@ package com.jorisrietveld.model.DAO;
 import com.jorisrietveld.model.Entity.Entity;
 import com.jorisrietveld.model.Entity.User;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -35,17 +37,25 @@ public class UserDAO extends DAO
 
     public UserDAO()
     {
-        super( Name.USER, TABLE_COLUMNS );
+        super( ENTITY_NAME.USER, TABLE_COLUMNS );
     }
 
-    @Override
-    public Entity getById(int entityId)
+    /**
+     * Constructs an new Entity collection from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet ) throws SQLException
     {
-        return null;
+        return new
     }
 
-    public User getByUsername( String username )
+    /**
+     * Constructs an new Entity from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected Entity createEntityFromResultSet(ResultSet resultSet ) throws SQLException
     {
-        return new User();
+        return new
     }
+
 }

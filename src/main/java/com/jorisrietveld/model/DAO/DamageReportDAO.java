@@ -1,10 +1,13 @@
 package com.jorisrietveld.model.DAO;
 
+import com.jorisrietveld.exception.EntityManagerException;
 import com.jorisrietveld.model.Entity.DamageReport;
+import com.jorisrietveld.model.Entity.Entity;
 import com.jorisrietveld.model.Entity.Rental;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +32,6 @@ public class DamageReportDAO extends DAO
     /**
      * Initiate the default table settings for the DamageReport Repo.
      */
-    private static final String TABLE_NAME = "DamageReport";
     private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
         add("id");
         add("rentalId");
@@ -42,14 +44,18 @@ public class DamageReportDAO extends DAO
 
     public DamageReportDAO()
     {
-        super( Name.DAMAGE_REPORT, TABLE_COLUMNS );
+        super( ENTITY_NAME.DAMAGE_REPORT, TABLE_COLUMNS );
     }
 
-    public DamageReport createDamageReportFromResultSet(ResultSet resultSet) throws Exception
+    /**
+     * Constructs an new Entity from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected Entity createEntityFromResultSet(ResultSet resultSet ) throws SQLException, EntityManagerException
     {
         return new DamageReport(
                 resultSet.getInt("id" ),
-                (Rental)getEntityManager().find( Name.RENTAL ).getById( resultSet.getInt("rentalId") ),
+                (Rental)getEntityManager().find( ENTITY_NAME.RENTAL ).getById( resultSet.getInt("rentalId") ),
                 resultSet.getString( "title"),
                 resultSet.getString("description"),
                 resultSet.getBigDecimal( "cost"),

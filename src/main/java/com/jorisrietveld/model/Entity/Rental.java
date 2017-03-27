@@ -29,7 +29,7 @@ public class Rental extends Entity
     private boolean currentlyRented;
     private Timestamp rentedStartDate;
     private Timestamp rentedEndDate;
-    private ArrayList<DamageReport> damageReports;
+    private ArrayList<Entity> damageReports;
     private Timestamp dateAdded;
     private Timestamp dateModified;
 
@@ -55,7 +55,7 @@ public class Rental extends Entity
      * @param dateAdded
      * @param dateModified
      */
-    public Rental(int id, SpeedBoat speedBoat, Customer customer, int fuelLevelStart, int fuelLevelEnd, boolean currentlyRented, Timestamp rentedStartDate, Timestamp rentedEndDate, ArrayList<DamageReport> damageReports, Timestamp dateAdded, Timestamp dateModified)
+    public Rental(int id, SpeedBoat speedBoat, Customer customer, int fuelLevelStart, int fuelLevelEnd, boolean currentlyRented, Timestamp rentedStartDate, Timestamp rentedEndDate, ArrayList<Entity> damageReports, Timestamp dateAdded, Timestamp dateModified)
     {
         this.id=id;
         this.speedBoat=speedBoat;
@@ -200,7 +200,7 @@ public class Rental extends Entity
     /**
      * Gets the value of the property damageReports
      */
-    public ArrayList<DamageReport> getDamageReports()
+    public ArrayList<Entity> getDamageReports()
     {
         return damageReports;
     }
@@ -210,7 +210,7 @@ public class Rental extends Entity
      *
      * @param damageReports java.util.ArrayList<com.jorisrietveld.model.EntityName.DamageReport>
      */
-    public void setDamageReports(ArrayList<DamageReport> damageReports)
+    public void setDamageReports(ArrayList<Entity> damageReports)
     {
         this.damageReports=damageReports;
     }

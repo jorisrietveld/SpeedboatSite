@@ -1,7 +1,10 @@
 package com.jorisrietveld.model.DAO;
 
-import com.jorisrietveld.model.Entity.Entity;
+import com.jorisrietveld.exception.EntityManagerException;
+import com.jorisrietveld.model.Entity.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -23,8 +26,9 @@ import java.util.ArrayList;
  */
 public class RentalDAO extends DAO
 {
-    private static final String TABLE_NAME = "Rental";
-    private static final ArrayList<String> TABLE_COLUMNS = new ArrayList<String>() {{
+    private static final String TABLE_NAME="Rental";
+    private static final ArrayList<String> TABLE_COLUMNS=new ArrayList<String>()
+    {{
         add("id");
         add("speedboatId");
         add("customerId");
@@ -39,14 +43,65 @@ public class RentalDAO extends DAO
 
     public RentalDAO()
     {
-        super( Name.RENTAL, TABLE_COLUMNS );
+        super(ENTITY_NAME.RENTAL, TABLE_COLUMNS);
     }
 
-
-
-    @Override
-    public Entity getById(int entityId)
+    /**
+     * Constructs an new Entity collection from an database result set.
+     *
+     * @param resultSet The database query result.
+     */
+    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet) throws SQLException, EntityManagerException
     {
-        return null;
+        ArrayList<Entity> entities=new ArrayList<>();
+
+        while(resultSet.next())
+        {
+            entities.add(
+                new Rental(
+                    resultSet.getInt("id"),
+                    (SpeedBoat) getEntityManager().find(ENTITY_NAME.SPEEDBOAT).getById(resultSet.getInt("speedboatId")),
+                    (Customer) getEntityManager().find(ENTITY_NAME.CUSTOMER).getById(resultSet.getInt("customerId")),
+                    resultSet.getInt("fuelLevelStart"),
+                    resultSet.getInt("fuelLevelEnd"),
+                    resultSet.getBoolean("currentlyRented"),
+                    resultSet.getTimestamp("rentedStartDate"),
+                    resultSet.getTimestamp("rentedEndDate"),
+                    getEntityManager().find(ENTITY_NAME.DAMAGE_REPORT).getWhere("rentalId = ?",
+                        new ArrayList<Object>() {{
+                            add(resultSet.getInt("rentalId"));
+                    }}),
+                    resultSet.getTimestamp("dateAdded"),
+                    resultSet.getTimestamp("dateModified")
+                )
+            );
+        }
+
+        return entities;
+    }
+
+    /**
+     * Constructs an new Entity from an database result set.
+     *
+     * @param resultSet The database query result.
+     */
+    protected Entity createEntityFromResultSet(ResultSet resultSet) throws SQLException, EntityManagerException
+    {
+        return new Rental(
+            resultSet.getInt("id"),
+            (SpeedBoat) getEntityManager().find(ENTITY_NAME.SPEEDBOAT).getById(resultSet.getInt("speedboatId")),
+            (Customer) getEntityManager().find(ENTITY_NAME.CUSTOMER).getById(resultSet.getInt("customerId")),
+            resultSet.getInt("fuelLevelStart"),
+            resultSet.getInt("fuelLevelEnd"),
+            resultSet.getBoolean("currentlyRented"),
+            resultSet.getTimestamp("rentedStartDate"),
+            resultSet.getTimestamp("rentedEndDate"),
+            getEntityManager().find(ENTITY_NAME.DAMAGE_REPORT).getWhere("rentalId = ?",
+                    new ArrayList<Object>() {{
+                        add(resultSet.getInt("rentalId"));
+                    }}),
+            resultSet.getTimestamp("dateAdded"),
+            resultSet.getTimestamp("dateModified")
+                )
     }
 }

@@ -3,13 +3,10 @@ package com.jorisrietveld.controller.Actions;
 import com.jorisrietveld.controller.Action;
 import com.jorisrietveld.exception.ActionException;
 import com.jorisrietveld.model.DAO.DAO;
-import com.jorisrietveld.model.DAO.UserDAO;
 import com.jorisrietveld.model.Entity.User;
-import com.jorisrietveld.model.EntityManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,7 +37,7 @@ public class HomeAction extends Action
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = entityManager.find( DAO.Name.USER ).getBy(  );
+        User user = entityManager.find( DAO.ENTITY_NAME.USER ).getBy(  );
 
         if (user != null) {
             request.getSession().setAttribute("user", user); // Login user.

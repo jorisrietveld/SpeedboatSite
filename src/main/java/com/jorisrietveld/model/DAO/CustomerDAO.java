@@ -1,10 +1,11 @@
 package com.jorisrietveld.model.DAO;
 
 import com.jorisrietveld.model.Entity.Customer;
-import com.mysql.cj.api.xdevapi.Table;
+import com.jorisrietveld.model.Entity.Entity;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +27,10 @@ import java.util.ArrayList;
  */
 public class CustomerDAO extends DAO
 {
-    private static final ArrayList<String> COLUMNS = new ArrayList<String>()
-    {{
+    /**
+     * The names of the columns that the Customer entity has.
+     */
+    private static final ArrayList<String> COLUMNS = new ArrayList<String>(){{
         add("id");
         add("firstName");
         add("lastName");
@@ -37,41 +40,20 @@ public class CustomerDAO extends DAO
         add("dateModified");
     }};
 
-   /* public enum COLUMNS implements TableColumns
-    {
-        ID("id","String"),
-        FIRST_NAME("firstName","String"),
-        LAST_NAME("lastName","String"),
-        EMAIL("email","String"),
-        TELEPHONE_NUMBER("telephoneNumber","String"),
-        DATE_ADDED("dateAdded","TimeStamp"),
-        DATE_MODIFIED("dateModified","TimeStamp");
-
-        private String columnName;
-        private String dataType;
-
-        Columns(String columnName, String dataType)
-        {
-            this.columnName = columnName;
-        }
-
-        public String getName()
-        {
-            return columnName;
-        }
-
-        public String getDataType()
-        {
-            return dataType;
-        }
-    }*/
-
+    /**
+     * Customer constructor for initiating the Customer Data Access Object.
+     */
     public CustomerDAO()
     {
-        super(Name.CUSTOMER, COLUMNS);
+        super(ENTITY_NAME.CUSTOMER, COLUMNS);
     }
 
-    public Customer createCustomerFromResultSet(ResultSet resultSet) throws Exception
+
+    /**
+     * Creates an Customer object from an database result set.
+     * @param resultSet The database result set containing an customer.
+     */
+    protected Customer createEntityFromResultSet(ResultSet resultSet)throws SQLException
     {
         return new Customer(
                 resultSet.getInt("id"),
@@ -84,9 +66,13 @@ public class CustomerDAO extends DAO
         );
     }
 
-    public ArrayList<Customer> createCustomersFromResultSet(ResultSet resultSet) throws Exception
+    /**
+     * Constructs an new Customer collection from an database result set.
+     * @param resultSet The database query result.
+     */
+    protected ArrayList<Entity> createEntitiesFromResultSet(ResultSet resultSet)throws SQLException
     {
-        ArrayList<Customer> customers=new ArrayList<>();
+        ArrayList<Entity> customers = new ArrayList<>();
 
         while(resultSet.next())
         {
@@ -101,30 +87,5 @@ public class CustomerDAO extends DAO
             ));
         }
         return customers;
-    }
-
-    public Customer getById(int id)
-    {
-        try
-        {
-            String sqlQuery=String.format(
-                    "SELECT %s FROM `%s`.`%s` WHERE id = ? ",
-                    String.join(",", COLUMNS),
-                    DATABASE_NAME,
-                    Name.CUSTOMER
-            );
-
-            PreparedStatement statement=connection.prepareStatement(sqlQuery);
-            statement.setInt(1, id);
-
-            ResultSet dbCustomer=statement.executeQuery();
-
-            return createCustomerFromResultSet(dbCustomer);
-        }
-        catch(Exception e)
-        {
-
-        }
-        return null;
     }
 }
